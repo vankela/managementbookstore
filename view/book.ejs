@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Details</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .book-details {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .book-details img {
+            max-width: 200px;
+            height: auto;
+        }
+        .book-details h2 {
+            margin-top: 10px;
+            font-size: 24px;
+            color: #333;
+        }
+        .book-details p {
+            margin: 10px 0;
+            font-size: 18px;
+            color: #555;
+        }
+        .book-details a,
+        .book-details button {
+            display: inline-block;
+            margin-right: 10px;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+        .book-details a:hover {
+            background-color: #0056b3;
+        }
+        .book-details button {
+            background-color: #dc3545;
+        }
+        .book-details button:hover {
+            background-color: #c82333;
+        }
+        .reviews {
+            margin-top: 20px;
+            border-top: 1px solid #ccc;
+            padding-top: 20px;
+        }
+        .reviews h3 {
+            font-size: 20px;
+            margin-bottom: 10px;
+        }
+        .review {
+            margin-bottom: 15px;
+            padding: 10px;
+            background-color: #f9f9f9;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .rating {
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+        .star {
+            color: #f9d71c; 
+            font-size: 18px; 
+        }
+        .edit-delete-buttons {
+            margin-top: 10px;
+        }
+        .edit-delete-buttons a,
+        .edit-delete-buttons button {
+            display: inline-block;
+            margin-right: 10px;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+        .edit-delete-buttons a:hover {
+            background-color: #0056b3;
+        }
+        .edit-delete-buttons button {
+            background-color: #dc3545;
+        }
+        .edit-delete-buttons button:hover {
+            background-color: #c82333;
+        }
+        .comment-section {
+            margin-top: 20px;
+            text-align: left;
+        }
+        .comment-section h3 {
+            font-size: 20px;
+            margin-bottom: 10px;
+        }
+        .comment-section textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            resize: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Book Details</h1>
+        <div class="book-details">
+            <img src="<%= book.image %>" alt="<%= book.title %>">
+            <h2><%= book.title %></h2>
+            <p><u>Price:</u> $<%= book.price.toFixed(2) %></p>
+            <p><u>Author:</u> <%= book.author %></p> 
+            <p><u>Description:</u> <%= book.description %></p>
+            <div class="edit-delete-buttons">
+                <a href="/shop/edit/<%= book._id %>">Edit</a>
+                <form action="/shop/delete/<%= book._id %>" method="POST">
+                    <button type="submit">Delete</button>
+                </form>
+            </div>
+            <form action="/cart/add/<%= book._id %>" method="POST">
+                <button type="submit">Add to Cart</button>
+            </form>
+
+            <div class="reviews">
+                <h3>Reviews</h3>
+                <% if (book.reviews && book.reviews.length > 0) { %>
+                    <% book.reviews.forEach((review) => { %>
+                        <div class="review">
+                            <div class="rating">
+                                <strong>Rating:</strong>
+                                <% for (let i = 1; i <= 5; i++) { %>
+                                    <% if (i <= review.rating) { %>
+                                        <i class="fas fa-star"></i>
+                                    <% } else { %>
+                                        <i class="far fa-star"></i> 
+                                    <% } %>
+                                <% } %>
+                            </div>
+                            <p><strong>Comment:</strong> <%= review.comment %></p>
+                        </div>
+                    <% }) %>
+                <% } else { %>
+                    <p>No comments yet.</p>
+                <% } %>
+
+                <div class="user-review">
+                    <h3>Your Review</h3>
+                    <form action="/shop/submit-review" method="POST">
+                        <input type="hidden" name="bookId" value="<%= book._id %>">
+                        <label for="rating">Rating:</label>
+                        <input type="number" name="rating" min="1" max="5" required>
+                        <br>
+                        <label for="comment">Comment:</label>
+                        <textarea name="comment" rows="2" required></textarea>
+                        <br>
+                        <button type="submit">Submit Review</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

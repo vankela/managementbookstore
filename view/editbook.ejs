@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Book</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 400px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            font-size: 24px;
+            color: #333;
+            margin-bottom: 20px;
+        }
+        form label {
+            display: block;
+            font-size: 18px;
+            margin-top: 10px;
+            color: #333;
+        }
+        form input[type="text"],
+        form input[type="number"],
+        form textarea,
+        form input[type="url"] {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        form button[type="submit"] {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 20px;
+            cursor: pointer;
+            font-size: 18px;
+        }
+        form button[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Edit Book</h1>
+        <form action="/shop/edit/<%= book._id %>" method="POST">
+            <label for="title">Title:</label>
+            <input type="text" id="title" name="title" value="<%= book.title %>" required>
+            <br>
+            <label for="author">Author:</label>
+            <input type="text" id="author" name="author" value="<%= book.author %>" required>
+            <br>
+            <label for="price">Price:</label>
+            <input type="number" id="price" name="price" step="0.01" value="<%= book.price %>" required>
+            <br>
+            <label for="description">Description:</label>
+            <textarea id="description" name="description" rows="4" required><%= book.description %></textarea>
+            <br>
+            <label for="image">Image URL:</label>
+            <input type="url" id="image" name="image" value="<%= book.image %>" required>
+            <br>
+            <button type="submit">Update Book</button>
+        </form>
+    </div>
+</body>
+</html>

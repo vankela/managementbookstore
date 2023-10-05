@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Profile</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            text-align: center;
+        }
+        .container {
+            margin-top: 50px;
+        }
+        .user-info {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .btn {
+            display: inline-block;
+            margin: 10px;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        .btn:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Welcome to Your Profile</h1>
+        <div class="user-info">
+            <% if (user) { %>
+                <p>Name: <%= user.name %></p>
+                <p>Email: <%= user.email %></p>
+            <% } else { %>
+                <p>User not authenticated.</p>
+            <% } %>
+            <a class="btn" href="/edit-profile">Edit Details</a>
+            <a class="btn" href="/shop">Shop</a>
+            <a class="btn" href="/cart">View Cart</a>
+            <a class="btn" href="/logout">Logout</a>
+        </div>
+    </div>
+</body>
+</html>

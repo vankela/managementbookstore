@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bookstore - Shop</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+        }
+        .navbar {
+            background-color: #6c2d05;
+            padding: 10px 0; 
+        }
+        .navbar a {
+            text-decoration: none;
+            color: #fff;
+            margin: 0 10px; 
+        }
+        .container {
+            max-width: 1000px; 
+            margin: 0 auto;
+            padding: 20px;
+            align-content: center;
+        }
+        .book-list {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            margin: 0 -10px; 
+        }
+        .book {
+            width: calc(25% - 20px); 
+            background-color: #fff;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin: 10px; 
+        }
+        .book img {
+            max-width: 98%;
+            height: auto;
+            margin-bottom: 10px;
+        }
+        .book h2 {
+            margin-top: 10px;
+            font-size: 20px;
+        }
+        .book p {
+            margin: 10px 0;
+            font-size: 16px;
+        }
+        .book button {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 20px;
+            cursor: pointer;
+        }
+        .book button:hover {
+            background-color: #0056b3;
+        }
+.search-form {
+    display: inline-block;
+    float: right;
+    margin-top: 10px;
+    margin-right: 20px; 
+}
+
+.search-input {
+    width: 250px; 
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+.search-button {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-size: 16px; 
+}
+
+.search-button:hover {
+    background-color: #0056b3;
+}
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <a href="/profile">Profile</a>
+        <a href="/cart">Go to Cart</a>
+        <a href="/shop/create">Create Book</a>
+    </div>
+    <form action="/shop/search" method="GET" class="search-form">
+        <input type="text" name="query" class="search-input" placeholder="Search books...">
+        <button type="submit" class="search-button">Search</button>
+    </form>
+    <div class="container">
+        <hr>
+        <h1>Bookstore</h1>
+        <div class="book-list">
+            <% books.forEach((book) => { %>
+                <div class="book">
+                    <a href="/shop/<%= book._id %>">
+                        <img src="<%= book.image %>" alt="<%= book.title %>">
+                    </a>
+                    <h2><a href="/shop/<%= book._id %>"><%= book.title %></a></h2>
+                    <p>Price: $<%= book.price.toFixed(2) %></p>
+                    <form action="/cart/add/<%= book._id %>" method="POST">
+                        <button type="submit">Add to Cart</button>
+                    </form>
+                </div>
+            <% }) %>     
+        </div>
+    </div>
+</body>
+</html>

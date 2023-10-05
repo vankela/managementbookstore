@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shopping Cart</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 0;
+        }
+        h1 {
+            text-align: center;
+            padding: 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        tr:nth-child(odd) {
+            background-color: #fff;
+        }
+        td button {
+            background-color: #dc3545;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            padding: 5px 10px;
+            cursor: pointer;
+        }
+        td button:hover {
+            background-color: #c82333;
+        }
+        p {
+            text-align: right;
+            font-weight: bold;
+            margin-top: 20px;
+        }
+        button[type="submit"] {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 20px;
+            cursor: pointer;
+        }
+        button[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+
+    </style>
+</head>
+<body>
+    <h1>Your Shopping Cart</h1>
+    <% if (cartItems.length > 0) { %>
+        <table>
+            <thead>
+                <tr>
+                    <th>Book Title</th>
+                    <th>Quantity</th>
+                    <th>Price</th>
+                    <th>Total</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% cartItems.forEach((item) => { %>
+                    <tr>
+                        <td><%= item.bookId ? item.bookId.title : 'N/A' %></td>
+                        <td>
+                            <form action="/cart/update/<%= item._id %>" method="POST">
+                                <input type="hidden" name="_method" value="PUT">
+                                <button type="submit" name="action" value="decrement" style="font-size: 12px; height: 20px; width: 20px; padding: 0;">-</button>
+                            </form>
+                            <%= item.quantity %> 
+                            <form action="/cart/update/<%= item._id %>" method="POST">
+                                <input type="hidden" name="_method" value="PUT" >
+                                <button type="submit" name="action" value="increment" style="font-size: 12px; height: 20px; width: 20px; padding: 0;">+</button>
+                            </form>
+                        </td>
+                        <td>$<%= item.bookId ? item.bookId.price.toFixed(2) : 'N/A' %></td>
+                        <td>
+                            $<%= (item.bookId && item.quantity) ? (item.quantity * item.bookId.price).toFixed(2) : 'N/A' %>
+                        </td>
+                        <td>
+                            <form action="/cart/remove/<%= item._id %>" method="POST">
+                                <button type="submit">Remove</button>
+                            </form>
+                        </td>
+                    </tr>
+                <% }) %>
+            </tbody>
+        </table>
+        <p>Total: $<%= cartItems.reduce((total, item) => {
+            if (item.bookId) { // Check if bookId is available
+                return total + item.quantity * item.bookId.price;
+            }
+            return total;
+        }, 0).toFixed(2) %></p>
+        <form action="/shop" method="GET">
+            <button type="submit">Continue Shopping</button>
+        </form>
+    <% } else { %>
+        <p>Your cart is empty.</p>
+    <% } %>
+</body>
+</html>

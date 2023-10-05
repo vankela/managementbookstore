@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bookstore - Search Results</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+        }
+        .navbar {
+            background-color: #6c2d05;
+            padding: 10px 0;
+        }
+        .navbar a {
+            text-decoration: none;
+            color: #fff;
+            margin: 0 10px;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .book-list {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            margin: 0 -10px;
+        }
+        .book {
+            width: calc(25% - 20px);
+            background-color: #fff;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin: 10px;
+        }
+        .book img {
+            max-width: 98%;
+            height: auto;
+            margin-bottom: 10px;
+        }
+        .book h2 {
+            margin-top: 10px;
+            font-size: 20px;
+        }
+        .book p {
+            margin: 10px 0;
+            font-size: 16px;
+        }
+        .book button {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 20px;
+            cursor: pointer;
+        }
+        .book button:hover {
+            background-color: #0056b3;
+        }
+        .back-button {
+            background-color: #6c2d05;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 20px;
+            cursor: pointer;
+            text-decoration: none; /* Remove underlines for links */
+        }
+        .back-button:hover {
+            background-color: #542304;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <div class="navbar">
+        <a href="/profile">Profile</a>
+        <a href="/cart">Go to Cart</a>
+        <a href="/shop/create">Create Book</a>
+    </div>
+    <div class="container">
+        <h1>Search Results</h1>
+        <!-- Book List -->
+        <div class="book-list">
+            <% results.forEach((book) => { %>
+                <div class="book">
+                    <a href="/shop/<%= book._id %>">
+                        <img src="<%= book.image %>" alt="<%= book.title %>">
+                    </a>
+                    <h2><a href="/shop/<%= book._id %>"><%= book.title %></a></h2>
+                    <p>Price: $<%= book.price.toFixed(2) %></p>
+                    <form action="/cart/add/<%= book._id %>" method="POST">
+                        <button type="submit">Add to Cart</button>
+                    </form>
+                </div>
+            <% }) %>
+        </div>
+        <!-- Button to go back to the shop page -->
+        <a href="/shop" class="back-button">Back to Shop</a>
+    </div>
+</body>
+</html>
